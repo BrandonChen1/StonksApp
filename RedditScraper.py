@@ -1,8 +1,11 @@
 import requests
+from polygon import RESTClient
 
 HEADERS = {
     "User-Agent": "python:subreddit.scraper:v1.0 (by u/anonymous)"
 }
+client = RESTClient(api_key="lIBofdm9q9wDCLfDg1lsqllOrpeYfC4l")
+
 
 # Scrape the hot posts for a given subreddit
 def scrapeSubreddit(subreddit, limit=25):
@@ -39,12 +42,14 @@ def countTickers(tickers):
 # Validate that these are real tickers by querying https://massive.com/dashboard/keys
 # api key lIBofdm9q9wDCLfDg1lsqllOrpeYfC4l
 def validateTickers(tickers):
-    return tickers
+    details = client.get_ticker_details(tickers[0])
+    return details
 
 
 def main():
     subreddits = ["wallstreetbets"]
-    print(scrapeSubreddit(subreddits[0]))
+    # print(scrapeSubreddit(subreddits[0]))
+    print(validateTickers(["AAPL"]))
     
 ## EXECUTE
 main()
