@@ -24,24 +24,27 @@ def scrapeSubreddit(subreddit, limit=25):
             "id": p["id"],
             "title": p["title"],
             "body": p.get("selftext", ""),
-            "comments": p["num_comments"]
+            "num_comments": p["num_comments"]
         })
 
     return posts
 
 # Scrape the tickers for a post
 def scrapePost(post):
-    print(post)
     title = post['title']
     body = post['body']
     comments = scrapeComments(post['id'])
-
+    return {
+        "title": title,
+        "body": body,
+        "comments": comments,
+    }
 
 # For a given post, find all the potential ticker symbols for the comments
 def scrapeComments(postId):
     url = f"https://www.reddit.com/comments/{postId}.json"
     params = {
-        "limit": 10,
+        "limit": 20,
         "depth": 10,
         "sort": "top"
     }
@@ -63,11 +66,7 @@ def scrapeComments(postId):
                 continue
 
             comments.append({
-                "comment_id": data["id"],
-                "body": data.get("body", ""),
-                "score": data["score"],
-                "created_utc": data["created_utc"],
-                "parent_id": data["parent_id"]
+                "body": data.get("body", "")
             })
 
             # Recursively parse replies
@@ -93,7 +92,16 @@ def main():
     subreddits = ["wallstreetbets"]
     posts = scrapeSubreddit(subreddits[0])
     
-    scrapePost(posts[0])
+    # Loaded the data (title, post, comments) for the posts from a specific subreddit.
+    postsData = []
+    for post in posts:
+        data = scrapePost(post)
+        print(data)
+        postsData.append(data)
+
+
+    
+
 
     
 ## EXECUTE
