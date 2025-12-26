@@ -1,12 +1,11 @@
 import requests
 
-subreddits = ["wallstreetbets"]
 HEADERS = {
     "User-Agent": "python:subreddit.scraper:v1.0 (by u/anonymous)"
 }
 
-
-def scrape_subreddit(subreddit, limit=25):
+# Scrape the hot posts for a given subreddit
+def scrapeSubreddit(subreddit, limit=25):
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     params = {"limit": limit}
 
@@ -27,4 +26,25 @@ def scrape_subreddit(subreddit, limit=25):
 
     return posts
 
-print(scrape_subreddit(subreddits[0]))
+
+# For a given post, find all the potential ticker symbols for the post
+def scrapePost(url):
+    tickers = []
+    return tickers
+
+# Find the most frequently mentioned ticker symbols given a list of potential symbols
+def countTickers(tickers):
+    return tickers
+
+# Validate that these are real tickers by querying https://massive.com/dashboard/keys
+# api key lIBofdm9q9wDCLfDg1lsqllOrpeYfC4l
+def validateTickers(tickers):
+    return tickers
+
+
+def main():
+    subreddits = ["wallstreetbets"]
+    print(scrapeSubreddit(subreddits[0]))
+    
+## EXECUTE
+main()
